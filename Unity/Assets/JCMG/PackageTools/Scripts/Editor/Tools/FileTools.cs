@@ -182,6 +182,19 @@ namespace JCMG.PackageTools.Editor
 		}
 
 		/// <summary>
+		/// Returns true if the <paramref name="path"/> is a script file, otherwise false.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		private static bool IsScriptFile(string path)
+		{
+			var extension = Path.GetExtension(path);
+			return extension == ".cs" || extension == ".cs.meta"
+				|| extension == ".asmdef" || extension == ".asmdef.meta"
+				|| extension == ".asmref" || extension == ".asmref.meta";
+		}
+
+		/// <summary>
 		/// Recursively copies all sub-folders and files in <see cref="DirectoryInfo"/> <paramref name="directoryInfo"/>
 		/// from parent folder <see cref="sourcePath"/> to <paramref name="destinationPath"/>.
 		/// </summary>
@@ -220,6 +233,14 @@ namespace JCMG.PackageTools.Editor
 					fi.FullName.Contains(Path.GetFullPath(Path.Combine(EditorConstants.PROJECT_PATH, x)))))
 				{
 					continue;
+				}
+
+				if (packageManifest.isScriptOnly)
+				{
+					if (!IsScriptFile(fi.Name))
+					{
+						continue;
+					}
 				}
 
 				var newPath = Path.GetFullPath(fi.FullName).Replace(normalizedSourcePath, normalizedDestinationPath);
