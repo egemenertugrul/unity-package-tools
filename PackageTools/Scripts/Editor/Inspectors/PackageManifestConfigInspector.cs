@@ -37,6 +37,7 @@ namespace JCMG.PackageTools.Editor
 
 		private const string SOURCE_PATHS_PROPERTY_NAME = "packageSourcePaths";
 		private const string EXCLUDE_PATHS_PROPERTY_NAME = "packageIgnorePaths";
+		private const string IS_SCRIPT_ONLY_PROPERTY_NAME = "isScriptOnly";
 		private const string DESTINATION_PATH_PROPERTY_NAME = "packageDestinationPath";
 		private const string LEGACY_PACKAGE_PATH_PROPERTY_NAME = "legacyPackageDestinationPath";
 		private const string NAME_PROPERTY_NAME = "packageName";
@@ -128,6 +129,8 @@ namespace JCMG.PackageTools.Editor
 
 				EditorGUILayout.Space();
 				EditorGUILayout.LabelField(EditorConstants.PACKAGE_CONTENT_HEADER, EditorStyles.boldLabel);
+
+				EditorGUILayout.PropertyField(serializedObject.FindProperty(IS_SCRIPT_ONLY_PROPERTY_NAME));
 
 				_sourcePathsReorderableList.DoLayoutList();
 				_excludePathsReorderableList.DoLayoutList();

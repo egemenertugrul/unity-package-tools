@@ -115,6 +115,12 @@ namespace JCMG.PackageTools.Editor
 		public string[] packageIgnorePaths;
 
 		/// <summary>
+		/// Indicates whether the current package is a script-only package, meaning it contains only script files 
+		/// (e.g., .cs files) and does not include other assets such as textures, models, or prefabs.
+		/// </summary>
+		public bool isScriptOnly;
+
+		/// <summary>
 		/// A path to the package source distribution contents.
 		/// </summary>
 		public string packageDestinationPath;
