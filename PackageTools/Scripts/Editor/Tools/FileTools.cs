@@ -241,7 +241,7 @@ namespace JCMG.PackageTools.Editor
 				var baseName = Path.GetFileNameWithoutExtension(path);
 				var baseExtension = Path.GetExtension(baseName);
 
-				return IsScriptExtension(baseExtension);
+				return IsLibraryExtension(baseExtension);
 			}
 
 			return false;
@@ -288,13 +288,6 @@ namespace JCMG.PackageTools.Editor
                     continue;
                 }
 
-                if (packageManifest.isScriptOnly)
-                {
-                    if (!IsScriptFile(fi.Name))
-                    {
-                        continue;
-                    }
-                }
 				if (packageManifest.isScriptOnly)
 				{
 					if (!IsScriptFile(fi.Name) && !IsLibraryFile(fi.Name))
