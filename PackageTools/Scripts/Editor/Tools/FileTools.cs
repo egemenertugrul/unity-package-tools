@@ -182,6 +182,26 @@ namespace JCMG.PackageTools.Editor
 		}
 
 		/// <summary>
+		/// Returns true if the <paramref name="extension"/> is a script extension, otherwise false.
+		/// </summary>
+		/// <param name="extension"></param>
+		/// <returns></returns>
+		private static bool IsScriptExtension(string extension)
+		{
+			return extension == ".cs" || extension == ".asmdef" || extension == ".asmref";
+		}
+
+		/// <summary>
+		/// Returns true if the <paramref name="extension"/> is a script extension, otherwise false.
+		/// </summary>
+		/// <param name="extension"></param>
+		/// <returns></returns>
+		private static bool IsLibraryExtension(string extension)
+		{
+			return extension == ".so" || extension == ".dll";
+		}
+
+		/// <summary>
 		/// Returns true if the <paramref name="path"/> is a script file, otherwise false.
 		/// </summary>
 		/// <param name="path"></param>
@@ -189,9 +209,42 @@ namespace JCMG.PackageTools.Editor
 		private static bool IsScriptFile(string path)
 		{
 			var extension = Path.GetExtension(path);
-			return extension == ".cs" || extension == ".cs.meta"
-				|| extension == ".asmdef" || extension == ".asmdef.meta"
-				|| extension == ".asmref" || extension == ".asmref.meta";
+
+			if (IsScriptExtension(extension))
+				return true;
+
+			if (extension == ".meta")
+			{
+				var baseName = Path.GetFileNameWithoutExtension(path);
+				var baseExtension = Path.GetExtension(baseName);
+
+				return IsScriptExtension(baseExtension);
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Returns true if the <paramref name="path"/> is a library file, otherwise false.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		private static bool IsLibraryFile(string path)
+		{
+			var extension = Path.GetExtension(path);
+
+			if (IsLibraryExtension(extension))
+				return true;
+
+			if (extension == ".meta")
+			{
+				var baseName = Path.GetFileNameWithoutExtension(path);
+				var baseExtension = Path.GetExtension(baseName);
+
+				return IsScriptExtension(baseExtension);
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -237,7 +290,7 @@ namespace JCMG.PackageTools.Editor
 
 				if (packageManifest.isScriptOnly)
 				{
-					if (!IsScriptFile(fi.Name))
+					if (!IsScriptFile(fi.Name) && !IsLibraryFile(fi.Name))
 					{
 						continue;
 					}
